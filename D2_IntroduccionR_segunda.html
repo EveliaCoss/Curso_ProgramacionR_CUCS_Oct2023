@@ -1699,7 +1699,7 @@ left: 6px;
 })(window, document)
 </script>
     <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x7f452ac6b6e425ebf48dcaaad20f441","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x613d25d759b439b8e03d4c9ef630db1","expires":1}</script>
     <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.himalaya = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -4157,11 +4157,13 @@ Una lista puede contener matrices en su interior, vectores, funciones, etc.
 | numeric   | `numeric()`                  | `as.numeric()`          | FALSE -&gt; 0, TRUE -&gt; 1; &quot;1&quot;, &quot;2&quot;, ... -&gt; 1,2, ...; &quot;A&quot; -&gt; NA  |
 | integer   | `integer()`                  | `as.integer()`          | FALSE -&gt; 0, TRUE -&gt; 1; &quot;1&quot;, &quot;2&quot;, ... -&gt; 1,2, ...; &quot;A&quot; -&gt; NA  |
 | double    | `double()`                   | `as.double()`           |                                                              |
-| logical   | `logical()`                  | `as.logical()`          | 0 -&gt; FALSE, other numbers -&gt; TRUE; (&quot;FALSE&quot;, &quot;F&quot;) -&gt; FALSE; (&quot;TRUE&quot;, &quot;T&quot;) -&gt; TRUE, other character -&gt; NA|
 | character | `character()`                | `as.character()`        |  1,2, ... -&gt; &quot;1&quot;, &quot;2&quot;, ...; FALSE -&gt; &quot;FALSE&quot;; TRUE -&gt; &quot;TRUE&quot;|
+| logical   | `logical()`                  | `as.logical()`          | 0 -&gt; FALSE, other numbers -&gt; TRUE; (&quot;FALSE&quot;, &quot;F&quot;) -&gt; FALSE; (&quot;TRUE&quot;, &quot;T&quot;) -&gt; TRUE, other character -&gt; NA|
 | factor    | `factor()`                   | `as.factor()`           |                                                             |
 
-Si queremos saber la clase de la variable debemos usar `class()`, aunque tambien `str()` te dice esta información 
+Si queremos saber la clase de la variable debemos usar `class()`, aunque tambien `str()` te dice esta información. 
+
+&gt; NOTA: `as.integer()` convierte los numeros a enteros. Ejemplo: as.integer(2.5) = 2. En cambio, `as.double()` permite que los numeros contengan decimales.
 
 .left[.footnote[.black[
 R for beginners, Página 24
