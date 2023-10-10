@@ -1699,7 +1699,7 @@ left: 6px;
 })(window, document)
 </script>
     <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x613d25d759b439b8e03d4c9ef630db1","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xd4c8fc9204d47c68b941c7fded8dbb5","expires":1}</script>
     <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.himalaya = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -4253,7 +4253,6 @@ y
 Conocer la estructura de un vector mediante la función `str()`. El vector es de tipo `integer` y va de 1 a 5.
 
 
-
 ```r
 str(x)
 #  int [1:5] 1 2 3 4 5
@@ -4268,13 +4267,101 @@ class(x)
 
 ---
 
+## Ejercicios
+
+
+```r
+x &lt;- c(TRUE, TRUE, FALSE, FALSE)
+x
+# [1]  TRUE  TRUE FALSE FALSE
+x &lt;- as.factor(x)
+```
+
+Vamos a crear un nuevo vector con los nombres de los participantes a esta clase
+
+
+```r
+ClaseBioinfo &lt;- c(&quot;Jose Luis&quot;, &quot;Diego&quot;, &quot;Rosita&quot;, &quot;Yuri&quot;, 
+                  &quot;Ulises&quot;, &quot;Tere&quot;, &quot;Chucho&quot;)
+ClaseBioinfo
+# [1] &quot;Jose Luis&quot; &quot;Diego&quot;     &quot;Rosita&quot;    &quot;Yuri&quot;      &quot;Ulises&quot;    &quot;Tere&quot;     
+# [7] &quot;Chucho&quot;
+
+# ver estructura
+str(ClaseBioinfo)
+#  chr [1:7] &quot;Jose Luis&quot; &quot;Diego&quot; &quot;Rosita&quot; &quot;Yuri&quot; &quot;Ulises&quot; &quot;Tere&quot; &quot;Chucho&quot;
+```
+
+---
+## Ejercicios
+
+Extraer información
+
+
+```r
+ClaseBioinfo ==&quot;Ulises&quot;
+# [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+ClaseBioinfo ==&quot;Chucho&quot;
+# [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE
+```
+
+Cuando son mas de un valor usamos `%in%`
+
+
+```r
+ClaseBioinfo %in% c(&quot;Ulises&quot;, &quot;Chucho&quot;)
+# [1] FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE
+```
+
+
+---
+## Ejercicios
+
+Porque marca error cuando ejecutamos este código.
+
+
+```r
+ClaseBioinfo == c(&quot;Ulises&quot;, &quot;Chucho&quot;)
+```
+Podemos declarar un vector de los tratamientos
+
+
+```r
+#opcion A
+y &lt;- rep(c(&quot;Control&quot;, &quot;Condicion&quot;),5)
+y
+#  [1] &quot;Control&quot;   &quot;Condicion&quot; &quot;Control&quot;   &quot;Condicion&quot; &quot;Control&quot;   &quot;Condicion&quot;
+#  [7] &quot;Control&quot;   &quot;Condicion&quot; &quot;Control&quot;   &quot;Condicion&quot;
+# opcion B
+y &lt;- c(rep(&quot;Control&quot;,5), rep(&quot;Condicion&quot;,5))
+y
+#  [1] &quot;Control&quot;   &quot;Control&quot;   &quot;Control&quot;   &quot;Control&quot;   &quot;Control&quot;   &quot;Condicion&quot;
+#  [7] &quot;Condicion&quot; &quot;Condicion&quot; &quot;Condicion&quot; &quot;Condicion&quot;
+```
+
+---
+
 ## Dataframe: Formas de declarar un vector
+
+
+```r
+x &lt;- 1:4
+n &lt;- 10
+M &lt;- c(10, 35)
+y &lt;- 2:4
+```
 
 Podemos declarar los componentes de un Dataframe en variables separadas y luego juntarlo o en una sola linea.
 
 
 ```r
 x &lt;- 1:4; n &lt;- 10; M &lt;- c(10, 35); y &lt;- 2:4
+```
+
+Vamos a crear dataframes apartir de estos vectores.
+
+
+```r
 data.frame(x, n)
 #   x  n
 # 1 1 10
@@ -4359,6 +4446,76 @@ str(df)
 #  $ expression: num  3.8 5.5 6.3 1.8 9 3 3 3
 #  $ treatment : chr  &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; ...
 ```
+---
+
+## Dataframe con los datos de la clase
+
+Vamos a crear un nuevo vector con las edades, llamado `edad`, posteriormente, vamos a combinarlo con el vector que creamos previamente `ClaseBioinfo`
+
+
+```r
+# declarar un vector e incorporarlo en el dataframe
+edad &lt;- c(31,32, 30, 30, 28, 32, 29)
+# Almacenar el dataframe
+ClaseBioinfo &lt;- data.frame(ClaseBioinfo, edad)
+ClaseBioinfo
+#   ClaseBioinfo edad
+# 1    Jose Luis   31
+# 2        Diego   32
+# 3       Rosita   30
+# 4         Yuri   30
+# 5       Ulises   28
+# 6         Tere   32
+# 7       Chucho   29
+```
+---
+
+## Agregar una nueva columna en el dataframe
+
+Tambien podemos agregar nuevas columnas usando el simbolo `$` de la siguiente manera:
+
+
+```r
+ClaseBioinfo$formacion &lt;- c(&quot;medicina&quot;, &quot;nutricion&quot;, &quot;medicina&quot;, 
+                            &quot;biologia&quot;, &quot;medicina&quot;, &quot;medicina&quot;, 
+                            &quot;biologia&quot;)
+head(ClaseBioinfo,3)
+#   ClaseBioinfo edad formacion
+# 1    Jose Luis   31  medicina
+# 2        Diego   32 nutricion
+# 3       Rosita   30  medicina
+```
+
+El dataframe tiene 7 filas y 3 columnas.
+
+
+```r
+str(ClaseBioinfo)
+# &#39;data.frame&#39;:	7 obs. of  3 variables:
+#  $ ClaseBioinfo: chr  &quot;Jose Luis&quot; &quot;Diego&quot; &quot;Rosita&quot; &quot;Yuri&quot; ...
+#  $ edad        : num  31 32 30 30 28 32 29
+#  $ formacion   : chr  &quot;medicina&quot; &quot;nutricion&quot; &quot;medicina&quot; &quot;biologia&quot; ...
+```
+
+---
+
+## Dataframe, completando espacios faltantes
+
+Cuando creamos la columna `formacion` en el dataframe, al contener 9 elementos el dataframe, R repite 3 veces los valores contenidos en la columna `formacion` para rellenar los 9 espacios.
+
+
+```r
+ClaseBioinfo &lt;- c(&quot;Jose Luis&quot;, &quot;Diego&quot;, &quot;Rosita&quot;, &quot;Yuri&quot;, 
+                  &quot;Ulises&quot;, &quot;Tere&quot;, &quot;Chucho&quot;, &quot;Evelia&quot;, &quot;Fulanito&quot;)
+edad &lt;-c(31,32, 30, 30, 28, 32, 29,29,30)
+ClaseBioinfo &lt;- data.frame(ClaseBioinfo, edad) # crear dataframe
+ClaseBioinfo$formacion &lt;- c(&quot;medicina&quot;, &quot;nutricion&quot;, &quot;medicina&quot;)
+head(ClaseBioinfo, 3)
+#   ClaseBioinfo edad formacion
+# 1    Jose Luis   31  medicina
+# 2        Diego   32 nutricion
+# 3       Rosita   30  medicina
+```
 
 ---
 
@@ -4431,6 +4588,8 @@ Podemos hacer la pregunta de dos maneras, 1) ¿Cuál es el nivel de expresión d
 
 1) **¿Cuál es el nivel de expresión del Gen2?**
 
+&gt; NOTA: Recuerda que un dataframe tiene dos dimensiones 1) fila y 2) columna, dataframe[fila, columna]. Estos nos ayudaran como coordenadas en el dataframe.
+
 
 ```r
 # Opcion A
@@ -4446,6 +4605,10 @@ df[&quot;Gen2&quot;,]
 #      expression treatment
 # Gen2        5.5   Control
 df[&quot;Gen2&quot;,1]
+# [1] 5.5
+
+# Opcion D
+df[&quot;Gen2&quot;,&quot;expression&quot;]
 # [1] 5.5
 ```
 
@@ -4512,7 +4675,6 @@ df[i,]
 # Gen1        3.8   Control
 # Gen3        6.3   Control
 ```
-
 
 &gt; NOTA: Recuerda que una matriz esta compuesta de filas y columnas.
 

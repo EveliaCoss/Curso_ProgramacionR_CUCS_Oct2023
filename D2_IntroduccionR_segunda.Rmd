@@ -246,7 +246,6 @@ y
 
 Conocer la estructura de un vector mediante la función `str()`. El vector es de tipo `integer` y va de 1 a 5.
 
-
 ```{r}
 str(x)
 ```
@@ -258,12 +257,81 @@ class(x)
 
 ---
 
+## Ejercicios
+
+```{r}
+x <- c(TRUE, TRUE, FALSE, FALSE)
+x
+x <- as.factor(x)
+```
+
+Vamos a crear un nuevo vector con los nombres de los participantes a esta clase
+
+```{r}
+ClaseBioinfo <- c("Jose Luis", "Diego", "Rosita", "Yuri", 
+                  "Ulises", "Tere", "Chucho")
+ClaseBioinfo
+
+# ver estructura
+str(ClaseBioinfo)
+```
+
+---
+## Ejercicios
+
+Extraer información
+
+```{r}
+ClaseBioinfo =="Ulises"
+ClaseBioinfo =="Chucho"
+```
+
+Cuando son mas de un valor usamos `%in%`
+
+```{r}
+ClaseBioinfo %in% c("Ulises", "Chucho")
+```
+
+
+---
+## Ejercicios
+
+Porque marca error cuando ejecutamos este código.
+
+```{r eval=FALSE}
+ClaseBioinfo == c("Ulises", "Chucho")
+```
+Podemos declarar un vector de los tratamientos
+
+```{r}
+#opcion A
+y <- rep(c("Control", "Condicion"),5)
+y
+# opcion B
+y <- c(rep("Control",5), rep("Condicion",5))
+y
+```
+
+---
+
 ## Dataframe: Formas de declarar un vector
+
+```{r}
+x <- 1:4
+n <- 10
+M <- c(10, 35)
+y <- 2:4
+```
 
 Podemos declarar los componentes de un Dataframe en variables separadas y luego juntarlo o en una sola linea.
 
 ```{r}
 x <- 1:4; n <- 10; M <- c(10, 35); y <- 2:4
+```
+
+Vamos a crear dataframes apartir de estos vectores.
+
+```{r}
 data.frame(x, n)
 data.frame(x, M)
 ```
@@ -312,6 +380,52 @@ Es un dataframe con 3 variables (`genes`, `expression` y `treatment`) y cada uno
 
 ```{r}
 str(df)
+```
+---
+
+## Dataframe con los datos de la clase
+
+Vamos a crear un nuevo vector con las edades, llamado `edad`, posteriormente, vamos a combinarlo con el vector que creamos previamente `ClaseBioinfo`
+
+```{r}
+# declarar un vector e incorporarlo en el dataframe
+edad <- c(31,32, 30, 30, 28, 32, 29)
+# Almacenar el dataframe
+ClaseBioinfo <- data.frame(ClaseBioinfo, edad)
+ClaseBioinfo
+```
+---
+
+## Agregar una nueva columna en el dataframe
+
+Tambien podemos agregar nuevas columnas usando el simbolo `$` de la siguiente manera:
+
+```{r}
+ClaseBioinfo$formacion <- c("medicina", "nutricion", "medicina", 
+                            "biologia", "medicina", "medicina", 
+                            "biologia")
+head(ClaseBioinfo,3)
+```
+
+El dataframe tiene 7 filas y 3 columnas.
+
+```{r}
+str(ClaseBioinfo)
+```
+
+---
+
+## Dataframe, completando espacios faltantes
+
+Cuando creamos la columna `formacion` en el dataframe, al contener 9 elementos el dataframe, R repite 3 veces los valores contenidos en la columna `formacion` para rellenar los 9 espacios.
+
+```{r}
+ClaseBioinfo <- c("Jose Luis", "Diego", "Rosita", "Yuri", 
+                  "Ulises", "Tere", "Chucho", "Evelia", "Fulanito")
+edad <-c(31,32, 30, 30, 28, 32, 29,29,30)
+ClaseBioinfo <- data.frame(ClaseBioinfo, edad) # crear dataframe
+ClaseBioinfo$formacion <- c("medicina", "nutricion", "medicina")
+head(ClaseBioinfo, 3)
 ```
 
 ---
@@ -379,6 +493,8 @@ Podemos hacer la pregunta de dos maneras, 1) ¿Cuál es el nivel de expresión d
 
 1) **¿Cuál es el nivel de expresión del Gen2?**
 
+> NOTA: Recuerda que un dataframe tiene dos dimensiones 1) fila y 2) columna, dataframe[fila, columna]. Estos nos ayudaran como coordenadas en el dataframe.
+
 ```{r}
 # Opcion A
 df[2,1]
@@ -390,6 +506,8 @@ df$expression[2]
 df["Gen2",]
 df["Gen2",1]
 
+# Opcion D
+df["Gen2","expression"]
 ```
 
 ---
@@ -437,7 +555,6 @@ Usar el vector `i` para obtener las filas 1 y 3
 ```{r}
 df[i,]
 ```
-
 
 > NOTA: Recuerda que una matriz esta compuesta de filas y columnas.
 
