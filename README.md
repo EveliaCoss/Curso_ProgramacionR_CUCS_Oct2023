@@ -47,7 +47,7 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
 ### Dia 3 - Manipulación de datos en R
 
   - Fecha: miercoles 11 de octubre 2023
-  - Presentación:
+  - Presentación:[Manipulación de datos en R](https://eveliacoss.github.io/Curso_ProgramacionR_CUCS_Oct2023/D3_ManipulacionDeDatos-Funciones.html#1)
     
 ### Dia 4 - Generación de diversos gráficos usando ggplot
   - Fecha: jueves 12 de octubre 2023
