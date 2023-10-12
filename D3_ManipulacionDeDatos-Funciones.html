@@ -1699,7 +1699,7 @@ left: 6px;
 })(window, document)
 </script>
     <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x27e0b6f662b490a8381e11e5673ec45","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"xecc77e9dc044ad082842dd7e71785f7","expires":1}</script>
     <script>(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.himalaya = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -4658,7 +4658,22 @@ marvelDcGender
 
 ## Ejercicios
 
-3) ¿Cuáles son las razas predominantes de cada empresa?
+3) ¿Cuántas razas hay en el dataframe?
+
+
+```r
+nlevels(fullMarvelDc$Race)
+# [1] 48
+```
+
+
+&gt; **NOTA:** `nlevels()` nos permite obtener los niveles a apartir de una columna convertida a factor.
+
+---
+
+## Ejercicios
+
+4) ¿Cuáles son las razas predominantes de cada empresa?
 
 
 ```r
@@ -4860,6 +4875,16 @@ head(marvelDc)
 # 6        1     1            1     0      1     5  Agility False
 ```
 
+---
+
+## Al usar melt()` se reduce el numero de columnas en 2
+
+
+```r
+dim(marvelDc)
+# [1] 97862    14
+```
+
 Se redujeron de 179 columnas a 14 columnas. Creando 2 nuevas columnas:
 
 1) `variable` :  Contiene el nombre de los poderes.
@@ -4871,7 +4896,7 @@ Se redujeron de 179 columnas a 14 columnas. Creando 2 nuevas columnas:
 
 
 ```r
-head(marvelDc,3)
+head(marvelDc, 3)
 #          Name Gender              Race     Publisher Alignment Intelligence.x
 # 1      A-Bomb   Male             Human Marvel Comics      good             38
 # 2    Abin Sur   Male           Ungaran     DC Comics      good             50
@@ -4899,11 +4924,12 @@ colnames(marvelDc)[colnames(marvelDc) == &quot;Durability.x&quot;] &lt;- &quot;D
 ```
 
 ---
-## Paso 9. Convertir a factor algunas columnas
+## Paso 9. Verificar el formato de las columnas
+
+En caso de que las siguientes columnas no se encuentren convertidas.
 
 
 ```r
-# Cambiar formatos
 marvelDc$Name &lt;- as.factor(marvelDc$Name)
 marvelDc$Gender &lt;- as.factor(marvelDc$Gender)
 marvelDc$Race &lt;- as.factor(marvelDc$Race)
@@ -4969,19 +4995,18 @@ marvelDc %&gt;% group_by(Name, Publisher) %&gt;%
   dplyr::count(Publisher) %&gt;%
   select(Name, Publisher,  Count = n) %&gt;%
   arrange(-Count) %&gt;% # ordenar de max a min
-  head(5)
-# # A tibble: 5 × 3
-# # Groups:   Name, Publisher [5]
-#   Name              Publisher     Count
-#   &lt;fct&gt;             &lt;fct&gt;         &lt;int&gt;
-# 1 Spectre           DC Comics        49
-# 2 Amazo             DC Comics        44
-# 3 Living Tribunal   Marvel Comics    35
-# 4 Martian Manhunter DC Comics        35
-# 5 Captain Marvel    Marvel Comics    33
+  head(3)
+# # A tibble: 3 × 3
+# # Groups:   Name, Publisher [3]
+#   Name            Publisher     Count
+#   &lt;fct&gt;           &lt;fct&gt;         &lt;int&gt;
+# 1 Spectre         DC Comics        49
+# 2 Amazo           DC Comics        44
+# 3 Living Tribunal Marvel Comics    35
 ```
-
 Spectre es el personaje con más habilidades a comparación de los demás personajes.
+
+&gt; NOTA:  Cuando usamos el simbolo `-` en la funcion `arrange()` para ordenar de mayor a menor los valores.
 
 ---
 
@@ -5107,7 +5132,7 @@ Es el personaje con más habilidades, pero tiene sus stats muy bajos.
 
 
 ```r
-marvelDc %&gt;% arrange(-Intelligence, -Strength, -Speed, -Durability, -Power, -Combat ) %&gt;%
+marvelDc %&gt;% arrange(-Intelligence, -Strength, -Speed, -Durability, -Power, -Combat) %&gt;%
   select(-SuperPower) %&gt;%
   distinct() %&gt;% head(5)
 #                Name Gender          Race     Publisher Alignment Intelligence
@@ -5123,6 +5148,9 @@ marvelDc %&gt;% arrange(-Intelligence, -Strength, -Speed, -Durability, -Power, -
 # 4      100    83        100   100     70   553
 # 5      100    67         95    62     56   480
 ```
+
+
+&gt; NOTA:  Cuando usamos el simbolo `-` en la funcion `select()` estamos eliminando la columna SuperPower.
 
 ---
 
@@ -5190,352 +5218,249 @@ marvelDc %&gt;% select(-SuperPower) %&gt;% distinct() %&gt;% # eliminas duplicad
 
 ---
 
-## Funcion `if_else()`
+## Función `if_else()`
+
+Cuando usamos la función `if_else()` la empleamos para asignar valores de acuerdo a una conducional.
+
+- Usage: if_else(condición, TRUE, FALSE)
+  - Condición: Selecciona una columna y verifica que debe cumplir la misma.
+  - TRUE: En caso de que la condición sea VERDADERA, que acción debe hacer.
+  - FALSE: En caso de que la condición sea FALSA, que acción debe hacer 
 
 Vamos agregar una nueva columna y vamos a cambiar los valores a usar el bando (Aligment)
 
 
 ```r
-marvelDc_edited &lt;- marvelDc %&gt;% mutate(Group = if_else(Alignment == &quot;good&quot;,&quot;hero&quot;, if_else(Alignment == &quot;bad&quot;,&quot;villain&quot;, &quot;neutral&quot;)))
+marvelDc_edited &lt;- marvelDc %&gt;% mutate(Group = 
+                    if_else(Alignment == &quot;good&quot;, &quot;hero&quot;, # Primer if_else
+                          if_else(Alignment == &quot;bad&quot;,&quot;villain&quot;, &quot;neutral&quot;))) # Segundo if_else
 ```
 
-Contestamos la pregunta anterior ahora con cambios, ¿Quiénes son los hombres más poderosos y malvados?
+## Ejercicio: Función `if_else()`
+
+¿Quiénes son los hombres más poderosos y malvados?
 
 
 ```r
 marvelDc_edited %&gt;% select(-SuperPower) %&gt;% distinct() %&gt;% # eliminas duplicados
-  filter(Gender == &quot;Male&quot; &amp; Group == c(&quot;hero&quot;,&quot;villain&quot;)) %&gt;%
+  filter(Gender == &quot;Male&quot; &amp; Group == &quot;villain&quot;) %&gt;%
   arrange(-Total)
 #                  Name Gender              Race     Publisher Alignment
-# 1            Superman   Male        Kryptonian     DC Comics      good
+# 1         General Zod   Male        Kryptonian     DC Comics       bad
 # 2      Superboy-Prime   Male        Kryptonian     DC Comics       bad
 # 3               Amazo   Male           Android     DC Comics       bad
-# 4            Stardust   Male              &lt;NA&gt; Marvel Comics      good
-# 5            Dormammu   Male              &lt;NA&gt; Marvel Comics       bad
-# 6            Doomsday   Male             Alien     DC Comics       bad
-# 7                Nova   Male             Human Marvel Comics      good
+# 4            Dormammu   Male              &lt;NA&gt; Marvel Comics       bad
+# 5            Doomsday   Male             Alien     DC Comics       bad
+# 6     Cyborg Superman   Male            Cyborg     DC Comics       bad
+# 7               Magus   Male              &lt;NA&gt; Marvel Comics       bad
 # 8             Abraxas   Male     Cosmic Entity Marvel Comics       bad
 # 9          Black Adam   Male              &lt;NA&gt;     DC Comics       bad
-# 10              Match   Male              &lt;NA&gt;     DC Comics       bad
-# 11           Iron Man   Male             Human Marvel Comics      good
-# 12        War Machine   Male             Human Marvel Comics      good
-# 13           Superboy   Male              &lt;NA&gt;     DC Comics      good
-# 14      Silver Surfer   Male             Alien Marvel Comics      good
-# 15             Vision   Male           Android Marvel Comics      good
-# 16            Warlock   Male              &lt;NA&gt; Marvel Comics      good
-# 17          Destroyer   Male              &lt;NA&gt; Marvel Comics       bad
-# 18         Air-Walker   Male              &lt;NA&gt; Marvel Comics       bad
-# 19            Century   Male             Alien Marvel Comics      good
-# 20           Hyperion   Male           Eternal Marvel Comics      good
-# 21      Beta Ray Bill   Male              &lt;NA&gt; Marvel Comics      good
-# 22            Carnage   Male          Symbiote Marvel Comics       bad
-# 23            Magneto   Male            Mutant Marvel Comics       bad
-# 24             Sentry   Male            Mutant Marvel Comics      good
-# 25            Kilowog   Male        Bolovaxian     DC Comics      good
-# 26        Abomination   Male Human / Radiation Marvel Comics       bad
-# 27              Steel   Male              &lt;NA&gt;     DC Comics      good
-# 28        Doctor Doom   Male             Human Marvel Comics       bad
-# 29           Sinestro   Male         Korugaran     DC Comics       bad
-# 30              Toxin   Male          Symbiote Marvel Comics      good
-# 31         Hal Jordan   Male             Human     DC Comics      good
-# 32             Osiris   Male              &lt;NA&gt;     DC Comics      good
-# 33              Groot   Male    Flora Colossus Marvel Comics      good
-# 34               Kang   Male              &lt;NA&gt; Marvel Comics       bad
-# 35           Red Hulk   Male Human / Radiation Marvel Comics      good
-# 36        Swamp Thing   Male     God / Eternal     DC Comics       bad
-# 37           Abin Sur   Male           Ungaran     DC Comics      good
-# 38           Colossus   Male            Mutant Marvel Comics      good
-# 39      Thunderstrike   Male              &lt;NA&gt; Marvel Comics      good
-# 40              Skaar   Male              &lt;NA&gt; Marvel Comics      good
-# 41        Plastic Man   Male             Human     DC Comics      good
-# 42      Fin Fang Foom   Male   Kakarantharaian Marvel Comics      good
-# 43         Animal Man   Male             Human     DC Comics      good
-# 44         Agent Zero   Male              &lt;NA&gt; Marvel Comics      good
-# 45         Alan Scott   Male              &lt;NA&gt;     DC Comics      good
-# 46        Iron Monger   Male              &lt;NA&gt; Marvel Comics       bad
-# 47              Thing   Male Human / Radiation Marvel Comics      good
-# 48         Doc Samson   Male Human / Radiation Marvel Comics      good
-# 49        Utgard-Loki   Male       Frost Giant Marvel Comics       bad
-# 50            Mach-IV   Male              &lt;NA&gt; Marvel Comics       bad
-# 51             Azazel   Male          Neyaphem Marvel Comics       bad
-# 52             Exodus   Male            Mutant Marvel Comics       bad
-# 53        Quicksilver   Male            Mutant Marvel Comics      good
-# 54  Captain Marvel II   Male             Human     DC Comics      good
-# 55        Ghost Rider   Male             Demon Marvel Comics      good
-# 56              Rhino   Male Human / Radiation Marvel Comics       bad
-# 57          Firestorm   Male              &lt;NA&gt;     DC Comics      good
-# 58        Doctor Fate   Male             Human     DC Comics      good
-# 59          Offspring   Male              &lt;NA&gt;     DC Comics      good
-# 60          Flash III   Male             Human     DC Comics      good
-# 61     Jack of Hearts   Male             Human Marvel Comics      good
-# 62            Impulse   Male             Human     DC Comics      good
-# 63         Molten Man   Male              &lt;NA&gt; Marvel Comics       bad
-# 64      Black Panther   Male             Human Marvel Comics      good
-# 65            Deadman   Male             Human     DC Comics      good
-# 66         Battlestar   Male              &lt;NA&gt; Marvel Comics      good
-# 67           Venom II   Male              &lt;NA&gt; Marvel Comics       bad
-# 68     Winter Soldier   Male             Human Marvel Comics      good
-# 69           Flash II   Male             Human     DC Comics      good
-# 70       Ra&#39;s Al Ghul   Male             Human     DC Comics       bad
-# 71  Scarlet Spider II   Male             Clone Marvel Comics      good
-# 72             Bishop   Male            Mutant Marvel Comics      good
-# 73             Batman   Male             Human     DC Comics      good
-# 74           Wildfire   Male              &lt;NA&gt;     DC Comics      good
-# 75              Magog   Male              &lt;NA&gt;     DC Comics      good
-# 76          Bloodhawk   Male            Mutant Marvel Comics      good
-# 77          Iron Fist   Male             Human Marvel Comics      good
-# 78          Beast Boy   Male             Human     DC Comics      good
-# 79             A-Bomb   Male             Human Marvel Comics      good
-# 80            Electro   Male             Human Marvel Comics       bad
-# 81        Human Torch   Male Human / Radiation Marvel Comics      good
-# 82              Cloak   Male              &lt;NA&gt; Marvel Comics      good
-# 83               Blob   Male              &lt;NA&gt; Marvel Comics       bad
-# 84            Cyclops   Male            Mutant Marvel Comics      good
-# 85           Deathlok   Male            Cyborg Marvel Comics      good
-# 86   Mister Fantastic   Male Human / Radiation Marvel Comics      good
-# 87           Man-Wolf   Male              &lt;NA&gt; Marvel Comics      good
-# 88          Sasquatch   Male              &lt;NA&gt; Marvel Comics      good
-# 89              Joker   Male             Human     DC Comics       bad
-# 90            Banshee   Male             Human Marvel Comics      good
-# 91            Shocker   Male             Human Marvel Comics       bad
-# 92           Vanisher   Male              &lt;NA&gt; Marvel Comics       bad
-# 93            Vulture   Male             Human Marvel Comics       bad
-# 94               Hawk   Male              &lt;NA&gt;     DC Comics      good
-# 95             Lizard   Male             Human Marvel Comics       bad
-# 96    Green Goblin II   Male              &lt;NA&gt; Marvel Comics       bad
-# 97          Shang-Chi   Male             Human Marvel Comics      good
-# 98    Mister Mxyzptlk   Male     God / Eternal     DC Comics       bad
-# 99       Green Goblin   Male             Human Marvel Comics       bad
-# 100       Tiger Shark   Male             Human Marvel Comics       bad
-# 101       Green Arrow   Male             Human     DC Comics      good
-# 102  Black Knight III   Male             Human Marvel Comics      good
-# 103            Gambit   Male            Mutant Marvel Comics      good
-# 104         Red Robin   Male             Human     DC Comics      good
-# 105          Question   Male             Human     DC Comics      good
-# 106           Gravity   Male             Human Marvel Comics      good
-# 107      Multiple Man   Male              &lt;NA&gt; Marvel Comics      good
-# 108         Kraven II   Male             Human Marvel Comics       bad
-# 109     Mister Freeze   Male             Human     DC Comics       bad
-# 110       Moon Knight   Male             Human Marvel Comics      good
-# 111      Nightcrawler   Male              &lt;NA&gt; Marvel Comics      good
-# 112          Bullseye   Male             Human Marvel Comics       bad
-# 113             Angel   Male              &lt;NA&gt; Marvel Comics      good
-# 114          Longshot   Male             Human Marvel Comics      good
-# 115          Deadshot   Male             Human     DC Comics       bad
-# 116            Azrael   Male             Human     DC Comics      good
-# 117         Red Arrow   Male             Human     DC Comics      good
-# 118    Lightning Lord   Male              &lt;NA&gt;     DC Comics       bad
-# 119           Ant-Man   Male             Human Marvel Comics      good
-# 120      Proto-Goblin   Male              &lt;NA&gt; Marvel Comics       bad
-# 121           Robin V   Male             Human     DC Comics      good
-# 122            Falcon   Male             Human Marvel Comics      good
-# 123             Spyke   Male            Mutant Marvel Comics      good
-# 124         Red Skull   Male              &lt;NA&gt; Marvel Comics       bad
-# 125           Hawkeye   Male             Human Marvel Comics      good
-# 126     Lightning Lad   Male              &lt;NA&gt;     DC Comics      good
-# 127          Kevin 11   Male             Human     DC Comics       bad
-# 128    Rocket Raccoon   Male            Animal Marvel Comics      good
-# 129         Blackwing   Male              &lt;NA&gt; Marvel Comics       bad
-# 130        Lex Luthor   Male             Human     DC Comics       bad
-# 131          Tinkerer   Male              &lt;NA&gt; Marvel Comics       bad
-# 132            Walrus   Male             Human Marvel Comics       bad
-# 133            Ben 10   Male              &lt;NA&gt;     DC Comics      good
-# 134      Yellowjacket   Male             Human Marvel Comics      good
-# 135           Bushido   Male             Human     DC Comics      good
-# 136              Pyro   Male              &lt;NA&gt; Marvel Comics       bad
-# 137             Leech   Male              &lt;NA&gt; Marvel Comics      good
-# 138             Quill   Male              &lt;NA&gt; Marvel Comics      good
-# 139         Agent Bob   Male             Human Marvel Comics      good
-# 140      Captain Atom   Male Human / Radiation     DC Comics      good
-# 141    Doctor Octopus   Male             Human Marvel Comics       bad
-# 142             Namor   Male              &lt;NA&gt; Marvel Comics      good
-# 143          Robin II   Male             Human     DC Comics      good
-# 144           Spectre   Male     God / Eternal     DC Comics      good
-# 145         Weapon XI   Male              &lt;NA&gt; Marvel Comics       bad
-# 146         Hellstorm   Male              &lt;NA&gt; Marvel Comics      good
-# 147   Mister Sinister   Male   Human / Altered Marvel Comics       bad
-# 148      Adam Strange   Male             Human     DC Comics      good
-# 149  Green Goblin III   Male              &lt;NA&gt; Marvel Comics      good
-# 150            Speedy   Male             Human     DC Comics      good
-# 151         Speedball   Male              &lt;NA&gt; Marvel Comics      good
-# 152           Atom II   Male             Human     DC Comics      good
-# 153          Bird-Man   Male             Human Marvel Comics       bad
-# 154         Bumbleboy   Male              &lt;NA&gt; Marvel Comics      good
-# 155  Crimson Crusader   Male              &lt;NA&gt; Marvel Comics      good
-# 156           Monarch   Male              &lt;NA&gt;     DC Comics      good
-# 157              Ammo   Male             Human Marvel Comics       bad
-# 158              Atom   Male              &lt;NA&gt;     DC Comics      good
-# 159    Blue Beetle II   Male              &lt;NA&gt;     DC Comics      good
-# 160          Blizzard   Male              &lt;NA&gt; Marvel Comics       bad
-# 161        Penance II   Male              &lt;NA&gt; Marvel Comics      good
-# 162          Atom III   Male              &lt;NA&gt;     DC Comics      good
-# 163     Razor-Fist II   Male              &lt;NA&gt; Marvel Comics       bad
-# 164           Genesis   Male              &lt;NA&gt; Marvel Comics      good
+# 10      Fallen One II   Male              &lt;NA&gt; Marvel Comics       bad
+# 11           Darkseid   Male           New God     DC Comics       bad
+# 12          Onslaught   Male            Mutant Marvel Comics       bad
+# 13              Match   Male              &lt;NA&gt;     DC Comics       bad
+# 14       Anti-Monitor   Male     God / Eternal     DC Comics       bad
+# 15         Apocalypse   Male            Mutant Marvel Comics       bad
+# 16               Lobo   Male          Czarnian     DC Comics       bad
+# 17             Thanos   Male           Eternal Marvel Comics       bad
+# 18             Ultron   Male           Android Marvel Comics       bad
+# 19          Destroyer   Male              &lt;NA&gt; Marvel Comics       bad
+# 20         Air-Walker   Male              &lt;NA&gt; Marvel Comics       bad
+# 21            Carnage   Male          Symbiote Marvel Comics       bad
+# 22            Magneto   Male            Mutant Marvel Comics       bad
+# 23           Mephisto   Male              &lt;NA&gt; Marvel Comics       bad
+# 24              Venom   Male          Symbiote Marvel Comics       bad
+# 25        Abomination   Male Human / Radiation Marvel Comics       bad
+# 26        Doctor Doom   Male             Human Marvel Comics       bad
+# 27           Sinestro   Male         Korugaran     DC Comics       bad
+# 28               Loki   Male         Asgardian Marvel Comics       bad
+# 29               Kang   Male              &lt;NA&gt; Marvel Comics       bad
+# 30           Brainiac   Male           Android     DC Comics       bad
+# 31        Swamp Thing   Male     God / Eternal     DC Comics       bad
+# 32            Metallo   Male           Android     DC Comics       bad
+# 33          Venom III   Male          Symbiote Marvel Comics       bad
+# 34          Annihilus   Male              &lt;NA&gt; Marvel Comics       bad
+# 35        Iron Monger   Male              &lt;NA&gt; Marvel Comics       bad
+# 36           Scorpion   Male             Human Marvel Comics       bad
+# 37        Utgard-Loki   Male       Frost Giant Marvel Comics       bad
+# 38           Mandarin   Male             Human Marvel Comics       bad
+# 39       Doppelganger   Male              &lt;NA&gt; Marvel Comics       bad
+# 40            Mach-IV   Male              &lt;NA&gt; Marvel Comics       bad
+# 41             Azazel   Male          Neyaphem Marvel Comics       bad
+# 42             Exodus   Male            Mutant Marvel Comics       bad
+# 43               Bane   Male             Human     DC Comics       bad
+# 44              Rhino   Male Human / Radiation Marvel Comics       bad
+# 45               Klaw   Male             Human Marvel Comics       bad
+# 46         Sabretooth   Male            Mutant Marvel Comics       bad
+# 47         Molten Man   Male              &lt;NA&gt; Marvel Comics       bad
+# 48           Venom II   Male              &lt;NA&gt; Marvel Comics       bad
+# 49       Ra&#39;s Al Ghul   Male             Human     DC Comics       bad
+# 50           Evilhawk   Male             Alien Marvel Comics       bad
+# 51           Blackout   Male             Demon Marvel Comics       bad
+# 52     Solomon Grundy   Male            Zombie     DC Comics       bad
+# 53            Electro   Male             Human Marvel Comics       bad
+# 54             Morlun   Male              &lt;NA&gt; Marvel Comics       bad
+# 55               Blob   Male              &lt;NA&gt; Marvel Comics       bad
+# 56                Gog   Male              &lt;NA&gt;     DC Comics       bad
+# 57           Junkpile   Male            Mutant Marvel Comics       bad
+# 58              Joker   Male             Human     DC Comics       bad
+# 59         Demogoblin   Male             Demon Marvel Comics       bad
+# 60               Zoom   Male              &lt;NA&gt;     DC Comics       bad
+# 61        Killer Croc   Male         Metahuman     DC Comics       bad
+# 62            Shocker   Male             Human Marvel Comics       bad
+# 63           Vanisher   Male              &lt;NA&gt; Marvel Comics       bad
+# 64            Vulture   Male             Human Marvel Comics       bad
+# 65  Kraven the Hunter   Male             Human Marvel Comics       bad
+# 66             Lizard   Male             Human Marvel Comics       bad
+# 67    Green Goblin II   Male              &lt;NA&gt; Marvel Comics       bad
+# 68    Mister Mxyzptlk   Male     God / Eternal     DC Comics       bad
+# 69       Green Goblin   Male             Human Marvel Comics       bad
+# 70          Hydro-Man   Male              &lt;NA&gt; Marvel Comics       bad
+# 71        Tiger Shark   Male             Human Marvel Comics       bad
+# 72       Moses Magnum   Male              &lt;NA&gt; Marvel Comics       bad
+# 73         Changeling   Male              &lt;NA&gt; Marvel Comics       bad
+# 74          Rick Flag   Male              &lt;NA&gt;     DC Comics       bad
+# 75          Kraven II   Male             Human Marvel Comics       bad
+# 76      Mister Freeze   Male             Human     DC Comics       bad
+# 77           Bullseye   Male             Human Marvel Comics       bad
+# 78           Deadshot   Male             Human     DC Comics       bad
+# 79             Leader   Male              &lt;NA&gt; Marvel Comics       bad
+# 80     Lightning Lord   Male              &lt;NA&gt;     DC Comics       bad
+# 81            Big Man   Male              &lt;NA&gt; Marvel Comics       bad
+# 82       Proto-Goblin   Male              &lt;NA&gt; Marvel Comics       bad
+# 83        Blizzard II   Male              &lt;NA&gt; Marvel Comics       bad
+# 84          Scarecrow   Male             Human     DC Comics       bad
+# 85               Warp   Male              &lt;NA&gt;     DC Comics       bad
+# 86          Red Skull   Male              &lt;NA&gt; Marvel Comics       bad
+# 87            Penguin   Male             Human     DC Comics       bad
+# 88           Kevin 11   Male             Human     DC Comics       bad
+# 89          Chameleon   Male              &lt;NA&gt;     DC Comics       bad
+# 90          Blackwing   Male              &lt;NA&gt; Marvel Comics       bad
+# 91         Lex Luthor   Male             Human     DC Comics       bad
+# 92           Tinkerer   Male              &lt;NA&gt; Marvel Comics       bad
+# 93             Walrus   Male             Human Marvel Comics       bad
+# 94            Riddler   Male              &lt;NA&gt;     DC Comics       bad
+# 95               Pyro   Male              &lt;NA&gt; Marvel Comics       bad
+# 96     Doctor Doom II   Male              &lt;NA&gt; Marvel Comics       bad
+# 97     Doctor Octopus   Male             Human Marvel Comics       bad
+# 98          Weapon XI   Male              &lt;NA&gt; Marvel Comics       bad
+# 99    Mister Sinister   Male   Human / Altered Marvel Comics       bad
+# 100       Bloodwraith   Male              &lt;NA&gt; Marvel Comics       bad
+# 101          Bird-Man   Male             Human Marvel Comics       bad
+# 102       Bird-Man II   Male             Human Marvel Comics       bad
+# 103              Ammo   Male             Human Marvel Comics       bad
+# 104         Hobgoblin   Male              &lt;NA&gt; Marvel Comics       bad
+# 105          Blizzard   Male              &lt;NA&gt; Marvel Comics       bad
+# 106      Black Abbott   Male              &lt;NA&gt; Marvel Comics       bad
+# 107     Razor-Fist II   Male              &lt;NA&gt; Marvel Comics       bad
 #     Intelligence Strength Speed Durability Power Combat Total   Group
-# 1            100      100   100        100    94     85   579    hero
+# 1             94      100    96        100    94     95   579 villain
 # 2             94      100   100        100   100     85   579 villain
 # 3             75      100   100        100   100    100   575 villain
-# 4             88       85   100        110   100     85   568    hero
-# 5             88       95    83        100   100     80   546 villain
-# 6             88       80    67        120   100     90   545 villain
-# 7            100       85    67        101   100     85   538    hero
+# 4             88       95    83        100   100     80   546 villain
+# 5             88       80    67        120   100     90   545 villain
+# 6             75       93    92        100   100     80   540 villain
+# 7             88      100    70         99   100     74   531 villain
 # 8             88      100    83         99   100     56   526 villain
 # 9             88      100    92        100    89     56   525 villain
-# 10            75       95    83         85    90     70   498 villain
-# 11           100       85    58         85   100     64   492    hero
-# 12            63       80    63        100   100     85   491    hero
-# 13            75       95    83         90    84     60   487    hero
-# 14            63      100    84        101   100     32   480    hero
-# 15           100       72    54         95    76     70   467    hero
-# 16            88       36    79         95    71     95   464    hero
-# 17            50       95    58         98    90     70   461 villain
-# 18            50       85   100         85   100     40   460 villain
-# 19            88       80    53         64    74    100   459    hero
-# 20            63       95    75         95    58     72   458    hero
-# 21            63       80    35         95   100     84   457    hero
-# 22            63       63    70         84    81     90   451 villain
-# 23            88       80    27         84    91     80   450 villain
-# 24            75       80    58         84    97     54   448    hero
-# 25            81       90    53         42   100     80   446    hero
-# 26            63       80    53         90    55     95   436 villain
-# 27            81       82    53         90    64     64   434    hero
-# 28           100       32    20        100    93     84   429 villain
-# 29            75       80    53         64   100     56   428 villain
-# 30            56       73    70         84    75     70   428    hero
-# 31            63       90    53         64   100     56   426    hero
-# 32            75       85    60         95    65     42   422    hero
-# 33            75       85    33         70    92     64   419    hero
-# 34           100       48    58         70    71     70   417 villain
-# 35            50       88    47         95    59     75   414    hero
-# 36            88       80    23        100    66     56   413 villain
-# 37            50       90    53         64    84     65   406    hero
-# 38            63       83    33        100    46     80   405    hero
-# 39            63       80    70         84    31     72   400    hero
-# 40            50       85    27         90    62     85   399    hero
-# 41            50       63    23        100   100     56   392    hero
-# 42            50       81    23        100    68     70   392    hero
-# 43            56       48    47         85    73     80   389    hero
-# 44            75       28    38         80    72     95   388    hero
-# 45            63       80    23         90    98     32   386    hero
-# 46            88       63    25         90    57     56   379 villain
-# 47            75       84    21         90    26     80   376    hero
-# 48            75       80    33         80    36     70   374    hero
-# 49            50       80    23         84    72     64   373 villain
-# 50            75       36    60         84    60     56   371 villain
-# 51            50       11    47         95    87     80   370 villain
-# 52            63       81    28         28   100     70   370 villain
-# 53            63       28   100         60    57     56   364    hero
-# 54            75       81    27         90    34     56   363    hero
-# 55            50       55    25        100    70     60   360    hero
-# 56            25       80    43         90    37     85   360 villain
-# 57            50       53    58         56   100     42   359    hero
-# 58            81       16    25         80   100     50   352    hero
-# 59            50       10    35         99   100     56   350    hero
-# 60            63       10   100         60    83     32   348    hero
-# 61            63       55   100         30    70     30   348    hero
-# 62            50       10   100         60    63     60   343    hero
-# 63            50       73    23         84    53     56   339 villain
-# 64            88       16    30         60    41    100   335    hero
-# 65            50       10    33        100   100     42   335    hero
-# 66            50       53    35         74    48     74   334    hero
-# 67            50       57    47         70    54     56   334 villain
-# 68            56       32    35         65    60     84   332    hero
-# 69            63       10   100         60    66     32   331    hero
-# 70           100       28    32         42    27    100   329 villain
-# 71            88       55    60         40    30     56   329    hero
-# 72            63       14    23         75    85     65   325    hero
-# 73           100       18    27         42    37    100   324    hero
-# 74            50       32    23        100    77     42   324    hero
-# 75            50       48    23         64    66     72   323    hero
-# 76            50       10    50         80    66     64   320    hero
-# 77            75       23    35         42    43    100   318    hero
-# 78            50       28    50         70    79     40   317    hero
-# 79            38      100    17         80    17     64   316    hero
-# 80            69       10    50         56    67     64   316 villain
-# 81            56       10    63         70    74     42   315    hero
-# 82            63       10    47         64    74     56   314    hero
-# 83            10       83    23         95    26     72   309 villain
-# 84            75       10    23         42    76     80   306    hero
-# 85            69       32    30         70    40     60   301    hero
-# 86           100       10    18         70    32     64   294    hero
-# 87            63       44    35         42    38     70   292    hero
-# 88            75       80    23         56    15     42   291    hero
-# 89           100       10    12         56    22     90   290 villain
-# 90            50       10    58         42    60     70   290    hero
-# 91            63       10    23         70    63     56   285 villain
-# 92            63       10    75         56    39     42   285 villain
-# 93            63       22    47         56    40     56   284 villain
-# 94            38       38    35         95    36     42   284    hero
-# 95            38       51    27         70    40     56   282 villain
-# 96            75       55    37         50    38     26   281 villain
-# 97            63       12    30         50    25    100   280    hero
-# 98           113       10    12         14   100     28   277 villain
-# 99            75       48    35         48    38     28   272 villain
-# 100           38       72    42         70    21     28   271 villain
-# 101           75       12    35         28    26     90   266    hero
-# 102           63       10     8         70    43     70   264    hero
-# 103           63       10    23         28    55     84   263    hero
-# 104           81       11    27         32    29     80   260    hero
-# 105           81       14    27         35    20     80   257    hero
-# 106           50       32    33         40    72     30   257    hero
-# 107           63       11    23         70    28     62   257    hero
-# 108           50       34    23         28    36     85   256 villain
-# 109           75       32    12         70    37     28   254 villain
-# 110           50       36    23         42    28     75   254    hero
-# 111           50       10    47         14    52     80   253    hero
-# 112           50       11    25         70    20     70   246 villain
-# 113           63       13    46         64    17     42   245    hero
-# 114           50       10    27         10    71     70   238    hero
-# 115           50       10    23         28    47     80   238 villain
-# 116           63       18    17         20    35     80   233    hero
-# 117           63       16    25         20    24     80   228    hero
-# 118           44       10    23         42    66     42   227 villain
-# 119          100       10    23         28    32     32   225    hero
-# 120           63       38    23         48    22     28   222 villain
-# 121           69        8    33         16    29     65   220    hero
-# 122           38       13    50         28    22     64   215    hero
-# 123           50       12    17         60    41     30   210    hero
-# 124           75       10    12         14    19     80   210 villain
-# 125           50       12    23         14    26     80   205    hero
-# 126           38       10    23         28    60     42   201    hero
-# 127           25        7    12         14   100     40   198 villain
-# 128           50        5    23         28    28     64   198    hero
-# 129           38       10    35         32    20     56   191 villain
-# 130          100       10    12         14    10     28   174 villain
-# 131          100       10    23         14    10     14   171 villain
-# 132           50       28     8         50    11     20   167 villain
-# 133           10        7     8         10    90     40   165    hero
-# 134           88       10    12         28    12     14   164    hero
-# 135           38       10     8         10    19     70   155    hero
-# 136           38       10    12         14    50     28   152 villain
-# 137           25        5    12         14    62     14   132    hero
-# 138           38       10    12         14    23     14   111    hero
-# 139           10        8    13          5     5     20    61    hero
-# 140            1        1     1          1     0      1     5    hero
-# 141            1        1     1          1     0      1     5 villain
-# 142            1        1     1          1     0      1     5    hero
-# 143            1        1     1          1     0      1     5    hero
-# 144            1        1     1          1     0      1     5    hero
-# 145            1        1     1          1     0      1     5 villain
-# 146            1        1     1          1     0      1     5    hero
-# 147            1        1     1          1     0      1     5 villain
-# 148            1        1     1          1     0      1     5    hero
-# 149            1        1     1          1     0      1     5    hero
-# 150            1        1     1          1     0      1     5    hero
-# 151            1        1     1          1     0      1     5    hero
-# 152            1        1     1          1     0      1     5    hero
-# 153            1        1     1          1     0      1     5 villain
-# 154            1        1     1          1     0      1     5    hero
-# 155            1        1     1          1     0      1     5    hero
-# 156            1        1     1          1     0      1     5    hero
-# 157            1        1     1          1     0      1     5 villain
-# 158            1        1     1          1     0      1     5    hero
-# 159            1        1     1          1     0      1     5    hero
-# 160            1        1     1          1     0      1     5 villain
-# 161            1        1     1          1     0      1     5    hero
-# 162            1        1     1          1     0      1     5    hero
-# 163            1        1     1          1     0      1     5 villain
-# 164            1        1     1          1     0      1     5    hero
+# 10            88       85    83        100   100     56   512 villain
+# 11            88      100    23        100   100     95   506 villain
+# 12            88       85    47        100   100     85   505 villain
+# 13            75       95    83         85    90     70   498 villain
+# 14            88       90    38         90   100     90   496 villain
+# 15           100      100    33        100   100     60   493 villain
+# 16            88       83    35        100    95     85   486 villain
+# 17            88      100    17        100   100     80   485 villain
+# 18            88       83    42        100   100     64   477 villain
+# 19            50       95    58         98    90     70   461 villain
+# 20            50       85   100         85   100     40   460 villain
+# 21            63       63    70         84    81     90   451 villain
+# 22            88       80    27         84    91     80   450 villain
+# 23            88       85    35         95   100     42   445 villain
+# 24            75       57    65         84    79     84   444 villain
+# 25            63       80    53         90    55     95   436 villain
+# 26           100       32    20        100    93     84   429 villain
+# 27            75       80    53         64   100     56   428 villain
+# 28            88       57    47         85    85     56   418 villain
+# 29           100       48    58         70    71     70   417 villain
+# 30           100       28    63         90    60     75   416 villain
+# 31            88       80    23        100    66     56   413 villain
+# 32            75       53    23         95    74     64   384 villain
+# 33            63       73    35         90    66     56   383 villain
+# 34            75       80    47         56    59     64   381 villain
+# 35            88       63    25         90    57     56   379 villain
+# 36            50       52    60         85    49     80   376 villain
+# 37            50       80    23         84    72     64   373 villain
+# 38           100       28    23         28    99     95   373 villain
+# 39             8       63    60         95    62     84   372 villain
+# 40            75       36    60         84    60     56   371 villain
+# 41            50       11    47         95    87     80   370 villain
+# 42            63       81    28         28   100     70   370 villain
+# 43            88       53    23         56    51     95   366 villain
+# 44            25       80    43         90    37     85   360 villain
+# 45            63       38    33        100    62     60   356 villain
+# 46            55       53    25         90    28    100   351 villain
+# 47            50       73    23         84    53     56   339 villain
+# 48            50       57    47         70    54     56   334 villain
+# 49           100       28    32         42    27    100   329 villain
+# 50            50       32    33         70    78     64   327 villain
+# 51            63       32    45         80    38     65   323 villain
+# 52             9       93    13        100    78     30   323 villain
+# 53            69       10    50         56    67     64   316 villain
+# 54            63       60    35         42    59     56   315 villain
+# 55            10       83    23         95    26     72   309 villain
+# 56            50       34    47         72    39     56   298 villain
+# 57            50       38    17         90    71     30   296 villain
+# 58           100       10    12         56    22     90   290 villain
+# 59            50       48    42         35    54     60   289 villain
+# 60            50       10   100         28    72     28   288 villain
+# 61            25       48    33         85    36     60   287 villain
+# 62            63       10    23         70    63     56   285 villain
+# 63            63       10    75         56    39     42   285 villain
+# 64            63       22    47         56    40     56   284 villain
+# 65            63       32    35         42    26     85   283 villain
+# 66            38       51    27         70    40     56   282 villain
+# 67            75       55    37         50    38     26   281 villain
+# 68           113       10    12         14   100     28   277 villain
+# 69            75       48    35         48    38     28   272 villain
+# 70            38       13    25         80    66     50   272 villain
+# 71            38       72    42         70    21     28   271 villain
+# 72            75       28    12         42    55     56   268 villain
+# 73            63       10    23         42    64     64   266 villain
+# 74            88       11    23         28    19     95   264 villain
+# 75            50       34    23         28    36     85   256 villain
+# 76            75       32    12         70    37     28   254 villain
+# 77            50       11    25         70    20     70   246 villain
+# 78            50       10    23         28    47     80   238 villain
+# 79           100       10    12         14    58     42   236 villain
+# 80            44       10    23         42    66     42   227 villain
+# 81            75       12    23         28    19     70   227 villain
+# 82            63       38    23         48    22     28   222 villain
+# 83            38       10    27         42    47     56   220 villain
+# 84            81       10    12         14    48     50   215 villain
+# 85            38       10    23         28    63     50   212 villain
+# 86            75       10    12         14    19     80   210 villain
+# 87            75       10    12         28    30     45   200 villain
+# 88            25        7    12         14   100     40   198 villain
+# 89            88       10    12         28    28     28   194 villain
+# 90            38       10    35         32    20     56   191 villain
+# 91           100       10    12         14    10     28   174 villain
+# 92           100       10    23         14    10     14   171 villain
+# 93            50       28     8         50    11     20   167 villain
+# 94           100       10    12         14    10     14   160 villain
+# 95            38       10    12         14    50     28   152 villain
+# 96             1       32     1          1     0      1    36 villain
+# 97             1        1     1          1     0      1     5 villain
+# 98             1        1     1          1     0      1     5 villain
+# 99             1        1     1          1     0      1     5 villain
+# 100            1        1     1          1     0      1     5 villain
+# 101            1        1     1          1     0      1     5 villain
+# 102            1        1     1          1     0      1     5 villain
+# 103            1        1     1          1     0      1     5 villain
+# 104            1        1     1          1     0      1     5 villain
+# 105            1        1     1          1     0      1     5 villain
+# 106            1        1     1          1     0      1     5 villain
+# 107            1        1     1          1     0      1     5 villain
 ```
 
 ---

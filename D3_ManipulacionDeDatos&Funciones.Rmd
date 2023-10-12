@@ -524,7 +524,20 @@ marvelDcGender
 
 ## Ejercicios
 
-3) ¿Cuáles son las razas predominantes de cada empresa?
+3) ¿Cuántas razas hay en el dataframe?
+
+```{r}
+nlevels(fullMarvelDc$Race)
+```
+
+
+> **NOTA:** `nlevels()` nos permite obtener los niveles a apartir de una columna convertida a factor.
+
+---
+
+## Ejercicios
+
+4) ¿Cuáles son las razas predominantes de cada empresa?
 
 ```{r}
 marvelDcRace <- fullMarvelDc %>% filter(!is.na(Race)) %>%
@@ -641,6 +654,14 @@ str(marvelDc)
 head(marvelDc)
 ```
 
+---
+
+## Al usar melt()` se reduce el numero de columnas en 2
+
+```{r}
+dim(marvelDc)
+```
+
 Se redujeron de 179 columnas a 14 columnas. Creando 2 nuevas columnas:
 
 1) `variable` :  Contiene el nombre de los poderes.
@@ -651,7 +672,7 @@ Se redujeron de 179 columnas a 14 columnas. Creando 2 nuevas columnas:
 ## Paso 8. Renombrar la columnas
 
 ```{r}
-head(marvelDc,3)
+head(marvelDc, 3)
 ```
 
 Vamos a renombrar la columna `variable` por `SuperPower`.
@@ -669,10 +690,11 @@ colnames(marvelDc)[colnames(marvelDc) == "Durability.x"] <- "Durability"  # Reno
 ```
 
 ---
-## Paso 9. Convertir a factor algunas columnas
+## Paso 9. Verificar el formato de las columnas
+
+En caso de que las siguientes columnas no se encuentren convertidas.
 
 ```{r Cambiar formatos de marvelDc}
-# Cambiar formatos
 marvelDc$Name <- as.factor(marvelDc$Name)
 marvelDc$Gender <- as.factor(marvelDc$Gender)
 marvelDc$Race <- as.factor(marvelDc$Race)
@@ -715,10 +737,11 @@ marvelDc %>% group_by(Name, Publisher) %>%
   dplyr::count(Publisher) %>%
   select(Name, Publisher,  Count = n) %>%
   arrange(-Count) %>% # ordenar de max a min
-  head(5)
+  head(3)
 ```
-
 Spectre es el personaje con más habilidades a comparación de los demás personajes.
+
+> NOTA:  Cuando usamos el simbolo `-` en la funcion `arrange()` para ordenar de mayor a menor los valores.
 
 ---
 
@@ -742,10 +765,13 @@ Es el personaje con más habilidades, pero tiene sus stats muy bajos.
 2) ¿Quiénes son los personajes con los stats más altos por cada empresa?
 
 ```{r}
-marvelDc %>% arrange(-Intelligence, -Strength, -Speed, -Durability, -Power, -Combat ) %>%
+marvelDc %>% arrange(-Intelligence, -Strength, -Speed, -Durability, -Power, -Combat) %>%
   select(-SuperPower) %>%
   distinct() %>% head(5)
 ```
+
+
+> NOTA:  Cuando usamos el simbolo `-` en la funcion `select()` estamos eliminando la columna SuperPower.
 
 ---
 
@@ -792,19 +818,30 @@ marvelDc %>% select(-SuperPower) %>% distinct() %>% # eliminas duplicados
 
 ---
 
-## Funcion `if_else()`
+## Función `if_else()`
+
+Cuando usamos la función `if_else()` la empleamos para asignar valores de acuerdo a una conducional.
+
+- Usage: if_else(condición, TRUE, FALSE)
+  - Condición: Selecciona una columna y verifica que debe cumplir la misma.
+  - TRUE: En caso de que la condición sea VERDADERA, que acción debe hacer.
+  - FALSE: En caso de que la condición sea FALSA, que acción debe hacer 
 
 Vamos agregar una nueva columna y vamos a cambiar los valores a usar el bando (Aligment)
 
 ```{r}
-marvelDc_edited <- marvelDc %>% mutate(Group = if_else(Alignment == "good","hero", if_else(Alignment == "bad","villain", "neutral")))
+marvelDc_edited <- marvelDc %>% mutate(Group = 
+                    if_else(Alignment == "good", "hero", # Primer if_else
+                          if_else(Alignment == "bad","villain", "neutral"))) # Segundo if_else
 ```
 
-Contestamos la pregunta anterior ahora con cambios, ¿Quiénes son los hombres más poderosos y malvados?
+## Ejercicio: Función `if_else()`
+
+¿Quiénes son los hombres más poderosos y malvados?
 
 ```{r}
 marvelDc_edited %>% select(-SuperPower) %>% distinct() %>% # eliminas duplicados
-  filter(Gender == "Male" & Group == c("hero","villain")) %>%
+  filter(Gender == "Male" & Group == "villain") %>%
   arrange(-Total)
 ```
 
