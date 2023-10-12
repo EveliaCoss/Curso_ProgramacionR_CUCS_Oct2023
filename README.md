@@ -51,7 +51,8 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
     
 ### Dia 4 - Generación de diversos gráficos usando ggplot
   - Fecha: jueves 12 de octubre 2023
-  - Presentación:
+  - Script: Descarga el ggplo2_R_LadiesMorelia.R
+  - Data: data/MMHOME.csv 
     
 ### Dia 5 - Casos de estudios en bioinformática
   - Fecha: viernes 13 de octubre 2023
