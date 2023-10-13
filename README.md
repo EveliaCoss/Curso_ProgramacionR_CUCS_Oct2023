@@ -69,10 +69,11 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
 ### Dia 5 - Casos de estudios en bioinformática
 
   - Fecha: viernes 13 de octubre 2023
-  - Presentación:
+  - Script: [Reportes en Rmarkdown](https://github.com/EveliaCoss/RmarkdownGraphs_notes)
+      
   - Cursos y material de apoyo:
     - [Video de Rladies - Cuernavaca, Estadística descriptiva con R](https://www.youtube.com/watch?v=wtMWEifXQ0Q)
-
+      
 ## Otros cursos que pueden aprender
 
 Cursos que ustedes mismos pueden aprender
