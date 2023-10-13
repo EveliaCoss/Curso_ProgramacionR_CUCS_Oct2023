@@ -52,7 +52,7 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
 ### Dia 4 - Generación de diversos gráficos usando ggplot
   - Fecha: jueves 12 de octubre 2023
   - Script: Descarga el [ggplo2_R_LadiesMorelia.R](https://github.com/EveliaCoss/Curso_ProgramacionR_CUCS_Oct2023/blob/eb4a6f9a5e3c48ce0fb4dec55b6254e53a6309a5/ggplo2_R_LadiesMorelia.R). Script proveniente de [R-Ladies Morelia](https://github.com/R-Ladies-Morelia/GGplotShiny/tree/main/ggplot2_R_ladies_Morelia)
-  - Data: data/MMHOME.csv 
+  - Data: Los datos se encuentran en la carpeta `data/` se llaman [MMHOME.csv](https://github.com/EveliaCoss/Curso_ProgramacionR_CUCS_Oct2023/blob/80dfd55b8f78ab6baff0ebf93e035b3cd220658c/data/MMHOME.csv) 
     
 ### Dia 5 - Casos de estudios en bioinformática
   - Fecha: viernes 13 de octubre 2023
