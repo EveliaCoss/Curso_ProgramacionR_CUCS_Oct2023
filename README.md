@@ -38,12 +38,20 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
 - Presentaciones
     - Parte 1. [Conceptos básicos de bioinformática y pseudocódigo](https://eveliacoss.github.io/Curso_ProgramacionR_CUCS_Oct2023/D1_PseudocodigoBioinfo_slides_P1.html#1)
     - Parte 2. [Introducción a R, parte 1](https://eveliacoss.github.io/Curso_ProgramacionR_CUCS_Oct2023/D1_IntroduccionR_slides_P2.html#1)
+- Cursos y material de apoyo:
+    - [Video de Rladies - Cuernavaca, Generación de Proyectos en RStudio](https://www.youtube.com/watch?v=tkPkVt6_lF4)
+    - [Summer R](https://aejaffe.com/summerR_2015/)
+    - [Workshop 1: Introduction to R](https://r.qcbs.ca/workshop01/pres-en/workshop01-pres-en.html#1)
+    - [R para principiantes](https://bookdown.org/jboscomendoza/r-principiantes4/)
+    - [Introducción a R y RStudio](https://lcolladotor.github.io/rnaseq_LCG-UNAM_2023/introducción-a-r-y-rstudio.html)
 
 ### Dia 2 - Introducción a R, parte 2
 
   - Fecha: martes 10 de octubre 2023
   - Presentación: [Introducción a R, parte 2](https://eveliacoss.github.io/Curso_ProgramacionR_CUCS_Oct2023/D2_IntroduccionR_segunda.html#1)
+- Cursos y material de apoyo:
 
+  
 ### Dia 3 - Manipulación de datos en R
 
   - Fecha: miercoles 11 de octubre 2023
@@ -53,8 +61,30 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
   - Fecha: jueves 12 de octubre 2023
   - Script: Descarga el [ggplo2_R_LadiesMorelia.R](https://github.com/EveliaCoss/Curso_ProgramacionR_CUCS_Oct2023/blob/eb4a6f9a5e3c48ce0fb4dec55b6254e53a6309a5/ggplo2_R_LadiesMorelia.R). Script proveniente de [R-Ladies Morelia](https://github.com/R-Ladies-Morelia/GGplotShiny/tree/main/ggplot2_R_ladies_Morelia)
   - Data: Los datos se encuentran en la carpeta `data/` se llaman [MMHOME.csv](https://github.com/EveliaCoss/Curso_ProgramacionR_CUCS_Oct2023/blob/80dfd55b8f78ab6baff0ebf93e035b3cd220658c/data/MMHOME.csv) 
+- Cursos y material de apoyo:
+    - [R gallery](https://r-graph-gallery.com/)
+    - [Plotly -  Graficas interactivas](https://plotly.com/r/)
+
     
 ### Dia 5 - Casos de estudios en bioinformática
+
   - Fecha: viernes 13 de octubre 2023
   - Presentación:
+  - Cursos y material de apoyo:
+    - [Video de Rladies - Cuernavaca, Estadística descriptiva con R](https://www.youtube.com/watch?v=wtMWEifXQ0Q)
 
+## Otros cursos que pueden aprender
+
+Cursos que ustedes mismos pueden aprender
+
+- [Workshop CDSB 2023: Creando paquetes de R/Bioconductor para análisis transcriptómicos de célula única](https://comunidadbioinfo.github.io/cdsb2023/index.html)
+- [Análisis de datos transcriptómicos de célula única (scRNA-seq) con R y Bioconductor](https://comunidadbioinfo.github.io/cdsb2021_scRNAseq/index.html)
+- [Repositorio de Leonardo Collado](https://github.com/lcolladotor?tab=repositories)
+- [10xPilot_snRNAseq-human](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#explore-the-data-interactively)
+- [Danielle Navarro](https://djnavarro.net)
+- [Recursos de Bioinformática](https://github.com/ToyokoLabs/Recursos-de-Bioinformatica#Grupos-de-Investigación)
+
+## Becas
+
+- [Científico Latino - link 1](https://www.cientificolatino.com/gsmi)
+- [Cientifico Latino - link 2](https://mailchi.mp/a0b125ec4b67/june-newsletter)
