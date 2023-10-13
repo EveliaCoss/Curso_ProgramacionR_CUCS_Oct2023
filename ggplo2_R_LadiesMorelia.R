@@ -29,6 +29,9 @@ library(ggplot2)   # Generar varios graficos en una misma figura
 library(RColorBrewer) # Paletas de colores, Info en https://r-graph-gallery.com/38-rcolorbrewers-palettes.html
 library(paletteer) # Paletas de colores, Info en https://pmassicotte.github.io/paletteer_gallery/
 
+## Obtener gama de colores
+display.brewer.all()
+
 ###--- Directorio ----
 # getwd() # nota de aqui saque la direccion
 indir <- "C:/Users/ecoss/OneDrive - CINVESTAV/Documentos/Posdoc_LIIGH/Clases_Cursos_Medicina_Guadalajara2023/IntroR_BasesDeDatos2023/data/"
@@ -49,6 +52,7 @@ bd<- read.csv(paste0(indir,"MMHOME.csv"))
 summary(infoCharacters)
 summary(infoPowers)
 summary(infoStats)
+summary(bd)
 
 ###--- Data ----
 head(infoCharacters)
@@ -74,13 +78,13 @@ marvelDcGender
 #    - 2) los elementos esteticos. 
 # ggplot de forma predeterminada muestra las coordenadas y el tema.
 
-ggplot(data = marvelDcGender, aes(x = Gender, y = Count))
+ggplot(data = marvelDcGender, mapping = aes(x = Gender, y = Count))
 
 #2. Se agregan los elementos esteticos
 # aes(), en este caso las variables (x, y) 
 # Tipo de grafica = que queremos representar y agregamos el tipo de geometria para representar los datos.
 
-ggplot(marvelDcGender)+
+ggplot(data = marvelDcGender) +
     geom_point(mapping = aes(x = Gender, y = Count)) # Grafica de puntos
 
 
@@ -88,12 +92,18 @@ ggplot(marvelDcGender)+
 # o asignando atributos fuera del mapping. Recordar la diferencia entre el mapping y "setting aesthetics".
 
 #a. Agregar elementos aeshetics al mapping
-ggplot(marvelDcGender)+ 
-  geom_point(mapping = aes(x = Gender, y = Count, colour= Publisher))
+ggplot(marvelDcGender) + 
+  geom_point(mapping = aes(x = Gender, y = Count, colour= Publisher)) 
 
 #b. Agregar elementos como setting aesthetics
-ggplot(marvelDcGender)+ 
+ggplot(marvelDcGender) + 
     geom_point (aes(x = Gender, y = Count), colour="red")
+
+ggplot(marvelDcGender) + 
+  geom_point (aes(x = Gender, y = Count), colour="purple")
+
+ggplot(marvelDcGender) + 
+  geom_point (aes(x = Gender, y = Count), colour="blue")
 
 ###--- Tipos de geometrias ----
 
@@ -105,7 +115,7 @@ goodBadPalette <- c("#A71D20", "#0DA751", "#818385")
 # que se usa en ggplot para representa un grafico por medio de objetos geometricos. 
 # Y se compone de la palabra geom y luego el nombre de la geometr?a (en ingles).
 
-# ONE VARIABLE continuous
+# ONE VARIABLE continuous (valores)
 c <- ggplot(infoCharacters, aes(x = Height))
 c + geom_area(stat = "bin")
 c + geom_density(kernel = "gaussian")
@@ -113,28 +123,35 @@ c + geom_dotplot()
 c + geom_freqpoly()
 c + geom_histogram()
 
-# ONE VARIABLE discrete
+# ONE VARIABLE discrete (cualidades)
 d <- ggplot(infoCharacters, aes(x = Gender))
 d + geom_bar()
 
-#TWO VARIABLES both continuous
-e <- ggplot(data = marvelDcGender, aes(x = Gender, y = Count))
+#TWO VARIABLES both continuous 
+e <- ggplot(data = infoCharacters, aes(x = Height, y = Weight))
 e + geom_point()
-e + geom_jitter() #Jitter agrega una pequeña cantidad de ruido aleatorio a los datos. Se utiliza para distribuir puntos que, de otro modo, quedarían sobretrazados.
+e + geom_jitter(alpha=0.5) #Jitter agrega una pequeña cantidad de ruido aleatorio a los datos. Se utiliza para distribuir puntos que, de otro modo, quedarían sobretrazados.
+
+# alpha es para poner transparencia y permite ver entre mas solido
+# mas datos presentes
+
 e + geom_line()
 e + geom_count()
 e + geom_step()
-#e + geom_smooth(method = lm)
-
+e + geom_smooth(method = lm) + # metodo lineal, regresion lineal
+coord_flip() # para voltear x y y
+  
 #Etiquetas 
-e + geom_label(aes(label= Count))
-e + geom_text(aes(label= Count))
+e + geom_label(aes(label= Publisher))
+e + geom_text(aes(label= Publisher))
 
 #one discrete, one continuous
 f <- ggplot(marvelDcGender, aes(x = Gender, y = Count))
 f + geom_col()
 f + geom_boxplot()
 f + geom_violin()
+
+rm(f, e, d, c) #eliminar variables especificas
 
 #both discrete
 g <- ggplot(infoCharacters, aes(x = Gender, y = Publisher))
@@ -147,22 +164,33 @@ g + geom_raster(aes(fill = Publisher))
 
 #Aplica la grafica las capas con diferentes geoms
 ggplot(bd, aes(x=Diet, y = Mass))+ 
-    geom_boxplot()+
+    geom_boxplot() +
     geom_jitter()
 #+geom_violin()
+
+# Cuidado en el acomodo de las capas, la posicion de las mismas es importante
+ggplot(bd, aes(x=Diet, y = Mass))+ 
+  geom_jitter() +
+  geom_boxplot()
+
+# puedes seguir agregando capas, cada grafico es una capa
+ggplot(bd, aes(x=Diet, y = Mass)) + 
+  geom_boxplot() +
+  geom_jitter() +
+  geom_violin()
 
 #Asignar varias capas y modificar los valores del mapping de la grafica. 
 ggplot(bd, aes(x=Home.range, y = Mass))+ 
     geom_jitter(aes(colour=Diet, shape=Diet), size= 2.0, alpha = 0.8)+
-    geom_smooth(method = lm, color="black")+
-    scale_shape_manual(values=c(17, 18, 19))+
+    geom_smooth(method = lm, color="black") +
+    scale_shape_manual(values=c(17, 18, 19)) +
     scale_color_manual(values=c('#CC0033','#E69F00', '#00CCCC'))
 
 ########Etiquetado######################
 #Asignar nombres al título, subtitulo, ejes
-aa <- ggplot(bd, aes(x=Diet, y = Mass,fill=Diet))+ 
-    geom_boxplot()+
-    geom_jitter(colour="gray")+
+aa <- ggplot(bd, aes(x=Diet, y = Mass, fill=Diet)) + 
+    geom_boxplot() +
+    geom_jitter(colour="gray") +
     labs(title = "Rango de hogar y masa corporal", 
          subtitle = "Mamíferos",
          x = "Dieta", y = "Masa (log10)", 
@@ -180,6 +208,7 @@ aa + theme_dark()
 aa + theme_minimal()
 aa + theme_void()
 aa + theme_test()
+aa + theme_classic()
 
 #Manipualar them
 ?theme
@@ -198,7 +227,7 @@ aa +
           panel.background = element_rect(fill = "lightblue", colour = "red"))
 
 #Si quiero usar un tipo de theme y asignar estilo a los títulos 
-aa +theme_dark()+
+aa + theme_dark() +
     theme(plot.title = element_text(color="red", size=12, face="bold.italic"),
           axis.title.x = element_text(color="blue", size=12, face="bold"),
           axis.title.y = element_text(color="#993333", size=12, face="italic")
@@ -251,10 +280,12 @@ p <- ggplot(bd, aes(x=Home.range , y = Mass))+
     scale_colour_manual(values=Paleta)
 p
 
+# Colores por posicion
 cbPalette <- c(colors()[100], colors()[200] , colors()[40])
 b <- ggplot(bd, aes(x=Diet, y = Mass, fill=Diet))+
-    geom_bar(stat = "identity")+
-    scale_fill_manual(values=cbPalette,labels=c("label1", "label2", "label3"))
+    geom_bar(stat = "identity") +
+    scale_fill_manual(values = cbPalette, 
+                      labels=c("label1", "label2", "label3"))
 b
 
 #Paleta brewer
@@ -267,8 +298,8 @@ ggplot(bd, aes(x=Home.range , y = Mass))+
 #https://r-charts.com/es/paletas-colores/
 #terrain.colors() heat.colors(), topo.colors(), cm.colors(), rainbow().
 
-ggplot(bd, aes(x=Home.range , y = Mass, colour=Mass))+
-    geom_point()+
+ggplot(bd, aes(x=Home.range , y = Mass, colour=Mass)) +
+    geom_point() +
     scale_colour_gradientn(colours=rainbow(30))
 
 #Crear paleta
@@ -276,6 +307,7 @@ p1 <- paletteer_c("ggthemes::Blue-Green Sequential", 30)
 ggplot(bd, aes(x=Home.range , y = Mass, colour=Mass))+
     geom_point()+
     scale_colour_gradientn(colours=p1)
+
 
 p2 <- paletteer_c("grDevices::Inferno", 30)
 ggplot(bd, aes(x=Home.range , y = Mass, colour=Mass))+
@@ -285,14 +317,18 @@ ggplot(bd, aes(x=Home.range , y = Mass, colour=Mass))+
 ###sistema de coordenadas####
 #Por defecto, los gráficos de ggplot2 tienen coordenadas cartesianas. 
 #La función coord_cartesian permite  hacer zoom a los gráficos
+
+range(bd$Home.range) # tener presente el rango va de -4.44 a 5.69
+range(bd$Mass) # -2.38  4.52
+
 e <- ggplot(data = bd, aes(x = Home.range, y = Mass))
 e + geom_point()
 #Delimitar x
-e + geom_point()+
+e + geom_point() +
     coord_cartesian(xlim=c(0,3))
-e + geom_point()+
+e + geom_point() +
     coord_cartesian(ylim=c(0,2))
-e + geom_point()+
+e + geom_point() +
     coord_cartesian(xlim=c(0,2.5),
                     ylim=c(0,2.5))
 
@@ -334,14 +370,18 @@ f + geom_bar(stat = "identity")+
 
 #facet_grid()
 #Columnas
-ggplot(data = bd, aes(x = Home.range, y = Mass))+
-    geom_point()+
-    facet_grid(.~Diet)
+ggplot(data = bd, aes(x = Home.range, y = Mass)) +
+    geom_point() +
+    facet_grid(~ Diet)
+
+ggplot(data = bd, aes(x = Home.range, y = Mass)) +
+  geom_point() +
+  facet_grid(~ Diet, scales = "free")
 
 #Filas
 ggplot(data = bd, aes(x = Home.range, y = Mass))+
     geom_point()+
-    facet_grid(Environment~.)
+    facet_grid(Environment ~ .)
 
 #Filas y columnas#falta agregar una columna cualitativa
 ggplot(data = bd, aes(x = Home.range, y = Mass))+
@@ -352,24 +392,35 @@ ggplot(data = bd, aes(x = Home.range, y = Mass))+
 head(bd)
 ggplot(data = bd, aes(x = Home.range, y = Mass))+
     geom_point()+
-    facet_wrap(Environment~Diet)
+    facet_wrap(Environment ~ Diet)
 
+# Juntar varias graficas en una sola figuras (cowplot)
 #Mostrar dos gráficas diferentes
-graf1 <- ggplot(bd, aes(x=Diet, y = Mass))+ 
-    geom_boxplot()
+graf1 <- ggplot(bd, aes(x=Diet, y = Mass)) + 
+    geom_boxplot() +
+    geom_jitter()
 graf1
 
 graf2 <- ggplot(bd, aes(x=Diet, y = Mass))+ 
     geom_jitter()
 graf2
 
-finalgraf <- plot_grid(graf1,graf2, labels=c("A","B"), ncol = 2, nrow = 1)
+finalgraf <- plot_grid(graf1, graf2, labels=c("A","B"), ncol = 2, nrow = 1)
+finalgraf
+
+finalgraf <- plot_grid(graf1, graf2, labels=c("1A","1B"), ncol = 2, nrow = 1)
 finalgraf
 
 ## Listo! Solo nos queda guardar nuestro grafico
 ggsave(filename = "ggplo2_RMorelia.png", 
        plot = finalgraf,
-       width = 10, height = 7, units = "in",
+       width = 10, height = 7, units = "in", #pulgadas
+       bg = "white",
+       dpi = 300)
+
+ggsave(filename = "ggplo2_RMorelia.pdf", 
+       plot = finalgraf,
+       width = 10, height = 7, units = "in", #pulgadas
        bg = "white",
        dpi = 300)
 
