@@ -73,7 +73,15 @@ El módulo consta de sesiones teóricas y prácticas impartidas de forma presenc
       
   - Cursos y material de apoyo:
     - [Video de Rladies - Cuernavaca, Estadística descriptiva con R](https://www.youtube.com/watch?v=wtMWEifXQ0Q)
-      
+
+## Recursos
+
+- [Emoji en Github](https://gist.github.com/rxaviers/7360908)
+- [ComplexHeatmap - OncoPrint](https://jokergoo.github.io/ComplexHeatmap-reference/book/oncoprint.html)
+- [ComplexHeatmap - Github](https://github.com/jokergoo/ComplexHeatmap)
+- [maftools - imagenes que pueden servirles](https://bioconductor.statistik.tu-dortmund.de/packages/3.5/bioc/vignettes/maftools/inst/doc/maftools.html)
+- [Giffitlab - otras imagenes y codigos](https://genviz.org/module-02-r/0002/03/01/introToggplot2/)
+
 ## Otros cursos que pueden aprender
 
 Cursos que ustedes mismos pueden aprender
@@ -84,6 +92,8 @@ Cursos que ustedes mismos pueden aprender
 - [10xPilot_snRNAseq-human](https://github.com/LieberInstitute/10xPilot_snRNAseq-human#explore-the-data-interactively)
 - [Danielle Navarro](https://djnavarro.net)
 - [Recursos de Bioinformática](https://github.com/ToyokoLabs/Recursos-de-Bioinformatica#Grupos-de-Investigación)
+- [Curso de Cancer - UK, Github](https://github.com/bioinformatics-core-shared-training/r-intro)
+- [Curso de Cancer - UK, Rmarkdown](https://bioinformatics-core-shared-training.github.io/r-intro/week3.html#visualizing_data_with_ggplot2)
 
 ## Becas
 
