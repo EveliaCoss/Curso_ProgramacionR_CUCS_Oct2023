@@ -7,7 +7,7 @@ Curso de Programación nivel básico para estudiantes del Centro Universitario d
 
 ## Sobre el repositorio 💜
 
-Este repositorio contiene el material para el curso de Bases de Programación en R nivel básico en el Posgrado de Doctorado en Genética Humana de la Universidad de Guadalajara (UdG), realizado en el Centro Universitario de Ciencias de la Saludo (CUCS).
+Este repositorio contiene el material para el curso de Bases de Programación en R nivel básico en el Posgrado de Doctorado en Genética Humana de la Universidad de Guadalajara (UdG), realizado en el Centro Universitario de Ciencias de la Salud (CUCS).
 
 ## Presentación 💊
 
